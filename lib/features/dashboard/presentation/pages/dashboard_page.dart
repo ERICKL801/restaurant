@@ -82,6 +82,16 @@ class DashboardPage extends ConsumerWidget {
                   label: const Text('Cocina'),
                 ),
               ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton.icon(
+                  onPressed: () => context.go(RoutePaths.cashier),
+                  icon: const Icon(Icons.payments_rounded),
+                  label: const Text('Caja'),
+                ),
+              ),
             ],
           ),
         ),

@@ -8,6 +8,8 @@ import '../../features/dashboard/presentation/pages/dashboard_page.dart';
 import '../../features/tables/presentation/pages/tables_page.dart';
 import '../../features/orders/presentation/pages/order_page.dart';
 import '../../features/kitchen/presentation/pages/kitchen_page.dart';
+import '../../features/cashier/presentation/pages/cashier_page.dart';
+import '../../features/cashier/presentation/pages/payment_detail_page.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
@@ -28,7 +30,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       final isProtectedRoute = location == RoutePaths.dashboard ||
           location == RoutePaths.tables ||
           location == RoutePaths.kitchen ||
-          location.startsWith('/orders/');
+          location == RoutePaths.cashier ||
+          location.startsWith('/orders/') ||
+          location.startsWith('/payment/');
 
       if (!isAuthenticated && isProtectedRoute) return RoutePaths.login;
       if (isAuthenticated && isLoginRoute) return RoutePaths.dashboard;
@@ -70,6 +74,26 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: RoutePaths.kitchen,
         name: RouteNames.kitchen,
         builder: (context, state) => const KitchenPage(),
+      ),
+      GoRoute(
+        path: RoutePaths.cashier,
+        name: RouteNames.cashier,
+        builder: (context, state) => const CashierPage(),
+      ),
+      GoRoute(
+        path: RoutePaths.payment,
+        name: RouteNames.payment,
+        builder: (context, state) {
+          final orderId = state.pathParameters['orderId']!;
+          final extra = state.extra as Map<String, String>?;
+          final tableId = extra?['tableId'] ?? '';
+          final tableName = extra?['tableName'] ?? 'Mesa';
+          return PaymentDetailPage(
+            orderId: orderId,
+            tableId: tableId,
+            tableName: tableName,
+          );
+        },
       ),
     ],
   );

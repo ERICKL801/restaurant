@@ -7,6 +7,8 @@ class RouteNames {
   static const String tables = 'tables';
   static const String orders = 'orders';
   static const String kitchen = 'kitchen';
+  static const String cashier = 'cashier';
+  static const String payment = 'payment';
 }
 
 class RoutePaths {
@@ -18,4 +20,6 @@ class RoutePaths {
   static const String tables = '/tables';
   static const String orders = '/orders/:tableId';
   static const String kitchen = '/kitchen';
+  static const String cashier = '/cashier';
+  static const String payment = '/payment/:orderId';
 }
