@@ -22,6 +22,7 @@ KitchenOrderModel _$KitchenOrderModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$KitchenOrderModel {
   String get id => throw _privateConstructorUsedError;
+  String get tableId => throw _privateConstructorUsedError;
   String get tableName => throw _privateConstructorUsedError;
   List<KitchenOrderItemModel> get items => throw _privateConstructorUsedError;
   KitchenOrderStatus get status => throw _privateConstructorUsedError;
@@ -48,6 +49,7 @@ abstract class $KitchenOrderModelCopyWith<$Res> {
   @useResult
   $Res call({
     String id,
+    String tableId,
     String tableName,
     List<KitchenOrderItemModel> items,
     KitchenOrderStatus status,
@@ -73,6 +75,7 @@ class _$KitchenOrderModelCopyWithImpl<$Res, $Val extends KitchenOrderModel>
   @override
   $Res call({
     Object? id = null,
+    Object? tableId = null,
     Object? tableName = null,
     Object? items = null,
     Object? status = null,
@@ -85,6 +88,10 @@ class _$KitchenOrderModelCopyWithImpl<$Res, $Val extends KitchenOrderModel>
             id: null == id
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
+                      as String,
+            tableId: null == tableId
+                ? _value.tableId
+                : tableId // ignore: cast_nullable_to_non_nullable
                       as String,
             tableName: null == tableName
                 ? _value.tableName
@@ -127,6 +134,7 @@ abstract class _$$KitchenOrderModelImplCopyWith<$Res>
   @useResult
   $Res call({
     String id,
+    String tableId,
     String tableName,
     List<KitchenOrderItemModel> items,
     KitchenOrderStatus status,
@@ -151,6 +159,7 @@ class __$$KitchenOrderModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? tableId = null,
     Object? tableName = null,
     Object? items = null,
     Object? status = null,
@@ -163,6 +172,10 @@ class __$$KitchenOrderModelImplCopyWithImpl<$Res>
         id: null == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
+                  as String,
+        tableId: null == tableId
+            ? _value.tableId
+            : tableId // ignore: cast_nullable_to_non_nullable
                   as String,
         tableName: null == tableName
             ? _value.tableName
@@ -198,6 +211,7 @@ class __$$KitchenOrderModelImplCopyWithImpl<$Res>
 class _$KitchenOrderModelImpl extends _KitchenOrderModel {
   const _$KitchenOrderModelImpl({
     required this.id,
+    required this.tableId,
     required this.tableName,
     final List<KitchenOrderItemModel> items = const [],
     required this.status,
@@ -212,6 +226,8 @@ class _$KitchenOrderModelImpl extends _KitchenOrderModel {
 
   @override
   final String id;
+  @override
+  final String tableId;
   @override
   final String tableName;
   final List<KitchenOrderItemModel> _items;
@@ -234,7 +250,7 @@ class _$KitchenOrderModelImpl extends _KitchenOrderModel {
 
   @override
   String toString() {
-    return 'KitchenOrderModel(id: $id, tableName: $tableName, items: $items, status: $status, createdAt: $createdAt, notes: $notes, total: $total)';
+    return 'KitchenOrderModel(id: $id, tableId: $tableId, tableName: $tableName, items: $items, status: $status, createdAt: $createdAt, notes: $notes, total: $total)';
   }
 
   @override
@@ -243,6 +259,7 @@ class _$KitchenOrderModelImpl extends _KitchenOrderModel {
         (other.runtimeType == runtimeType &&
             other is _$KitchenOrderModelImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.tableId, tableId) || other.tableId == tableId) &&
             (identical(other.tableName, tableName) ||
                 other.tableName == tableName) &&
             const DeepCollectionEquality().equals(other._items, _items) &&
@@ -258,6 +275,7 @@ class _$KitchenOrderModelImpl extends _KitchenOrderModel {
   int get hashCode => Object.hash(
     runtimeType,
     id,
+    tableId,
     tableName,
     const DeepCollectionEquality().hash(_items),
     status,
@@ -286,6 +304,7 @@ class _$KitchenOrderModelImpl extends _KitchenOrderModel {
 abstract class _KitchenOrderModel extends KitchenOrderModel {
   const factory _KitchenOrderModel({
     required final String id,
+    required final String tableId,
     required final String tableName,
     final List<KitchenOrderItemModel> items,
     required final KitchenOrderStatus status,
@@ -300,6 +319,8 @@ abstract class _KitchenOrderModel extends KitchenOrderModel {
 
   @override
   String get id;
+  @override
+  String get tableId;
   @override
   String get tableName;
   @override

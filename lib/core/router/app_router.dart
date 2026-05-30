@@ -10,6 +10,8 @@ import '../../features/orders/presentation/pages/order_page.dart';
 import '../../features/kitchen/presentation/pages/kitchen_page.dart';
 import '../../features/cashier/presentation/pages/cashier_page.dart';
 import '../../features/cashier/presentation/pages/payment_detail_page.dart';
+import '../../features/inventory/presentation/pages/inventory_page.dart';
+import '../../features/inventory/presentation/pages/inventory_detail_page.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
@@ -31,8 +33,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           location == RoutePaths.tables ||
           location == RoutePaths.kitchen ||
           location == RoutePaths.cashier ||
+          location == RoutePaths.inventory ||
           location.startsWith('/orders/') ||
-          location.startsWith('/payment/');
+          location.startsWith('/payment/') ||
+          location.startsWith('/inventory/');
 
       if (!isAuthenticated && isProtectedRoute) return RoutePaths.login;
       if (isAuthenticated && isLoginRoute) return RoutePaths.dashboard;
@@ -93,6 +97,19 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             tableId: tableId,
             tableName: tableName,
           );
+        },
+      ),
+      GoRoute(
+        path: RoutePaths.inventory,
+        name: RouteNames.inventory,
+        builder: (context, state) => const InventoryPage(),
+      ),
+      GoRoute(
+        path: RoutePaths.inventoryItem,
+        name: RouteNames.inventoryItem,
+        builder: (context, state) {
+          final id = state.pathParameters['id']!;
+          return InventoryDetailPage(itemId: id);
         },
       ),
     ],

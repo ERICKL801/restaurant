@@ -41,6 +41,7 @@ class MockKitchenDatasource implements KitchenDatasource {
   KitchenOrderEntity _mapToKitchenOrder(OrderModel order) {
     return KitchenOrderEntity(
       id: order.id,
+      tableId: order.tableId,
       tableName: order.tableName,
       items: order.items
           .map((i) => KitchenOrderItemEntity(

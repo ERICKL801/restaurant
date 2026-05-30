@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'core/realtime/widgets/app_realtime_listener.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 
@@ -17,6 +18,9 @@ class RestoTabApp extends ConsumerWidget {
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.light,
       routerConfig: router,
+      builder: (context, child) {
+        return AppRealtimeListener(child: child ?? const SizedBox.shrink());
+      },
     );
   }
 }

@@ -1,11 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/realtime/providers/realtime_providers.dart';
 import '../../data/repositories/cashier_repository_impl.dart';
 import '../../domain/entities/pending_payment_entity.dart';
 import '../../domain/repositories/cashier_repository.dart';
 
 final cashierProvider =
     StateNotifierProvider<CashierNotifier, CashierState>((ref) {
-  return CashierNotifier(ref.watch(cashierRepositoryProvider));
+  final notifier = CashierNotifier(ref.watch(cashierRepositoryProvider));
+
+  ref.listen(orderDeliveredEventProvider, (prev, next) {
+    final event = next.valueOrNull;
+    if (event != null) {
+      notifier.loadPendingPayments();
+    }
+  });
+
+  return notifier;
 });
 
 class CashierState {

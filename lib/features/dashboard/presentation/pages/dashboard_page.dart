@@ -92,6 +92,16 @@ class DashboardPage extends ConsumerWidget {
                   label: const Text('Caja'),
                 ),
               ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton.icon(
+                  onPressed: () => context.go(RoutePaths.inventory),
+                  icon: const Icon(Icons.inventory_2_rounded),
+                  label: const Text('Inventario'),
+                ),
+              ),
             ],
           ),
         ),

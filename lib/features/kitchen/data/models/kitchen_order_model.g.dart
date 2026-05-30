@@ -10,6 +10,7 @@ _$KitchenOrderModelImpl _$$KitchenOrderModelImplFromJson(
   Map<String, dynamic> json,
 ) => _$KitchenOrderModelImpl(
   id: json['id'] as String,
+  tableId: json['tableId'] as String,
   tableName: json['tableName'] as String,
   items:
       (json['items'] as List<dynamic>?)
@@ -28,6 +29,7 @@ Map<String, dynamic> _$$KitchenOrderModelImplToJson(
   _$KitchenOrderModelImpl instance,
 ) => <String, dynamic>{
   'id': instance.id,
+  'tableId': instance.tableId,
   'tableName': instance.tableName,
   'items': instance.items,
   'status': _$KitchenOrderStatusEnumMap[instance.status]!,

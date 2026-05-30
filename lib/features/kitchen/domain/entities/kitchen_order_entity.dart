@@ -3,6 +3,7 @@ import 'kitchen_order_item_entity.dart';
 
 class KitchenOrderEntity {
   final String id;
+  final String tableId;
   final String tableName;
   final List<KitchenOrderItemEntity> items;
   final KitchenOrderStatus status;
@@ -12,6 +13,7 @@ class KitchenOrderEntity {
 
   const KitchenOrderEntity({
     required this.id,
+    required this.tableId,
     required this.tableName,
     required this.items,
     required this.status,
@@ -22,6 +24,7 @@ class KitchenOrderEntity {
 
   KitchenOrderEntity copyWith({
     String? id,
+    String? tableId,
     String? tableName,
     List<KitchenOrderItemEntity>? items,
     KitchenOrderStatus? status,
@@ -31,6 +34,7 @@ class KitchenOrderEntity {
   }) {
     return KitchenOrderEntity(
       id: id ?? this.id,
+      tableId: tableId ?? this.tableId,
       tableName: tableName ?? this.tableName,
       items: items ?? this.items,
       status: status ?? this.status,

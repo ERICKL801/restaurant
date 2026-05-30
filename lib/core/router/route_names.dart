@@ -9,6 +9,8 @@ class RouteNames {
   static const String kitchen = 'kitchen';
   static const String cashier = 'cashier';
   static const String payment = 'payment';
+  static const String inventory = 'inventory';
+  static const String inventoryItem = 'inventoryItem';
 }
 
 class RoutePaths {
@@ -22,4 +24,6 @@ class RoutePaths {
   static const String kitchen = '/kitchen';
   static const String cashier = '/cashier';
   static const String payment = '/payment/:orderId';
+  static const String inventory = '/inventory';
+  static const String inventoryItem = '/inventory/:id';
 }

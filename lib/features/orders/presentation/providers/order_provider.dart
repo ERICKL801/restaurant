@@ -1,4 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/realtime/events/order_events.dart';
+import '../../../../core/realtime/services/realtime_service.dart';
+import '../../../../core/realtime/providers/realtime_providers.dart';
 import '../../domain/entities/menu_item_entity.dart';
 import '../../domain/entities/order_entity.dart';
 import '../../domain/entities/order_item_entity.dart';
@@ -8,7 +11,10 @@ import '../../domain/usecases/create_order_usecase.dart';
 const _orderIdPrefix = 'ORD-';
 
 final orderProvider = StateNotifierProvider<OrderNotifier, OrderState>((ref) {
-  return OrderNotifier(ref.watch(createOrderUseCaseProvider));
+  return OrderNotifier(
+    ref.watch(createOrderUseCaseProvider),
+    ref.watch(realtimeServiceProvider),
+  );
 });
 
 class OrderState {
@@ -61,9 +67,11 @@ class OrderState {
 
 class OrderNotifier extends StateNotifier<OrderState> {
   final CreateOrderUseCase _createOrder;
+  final RealtimeService _realtimeService;
   int _orderCounter = 0;
 
-  OrderNotifier(this._createOrder) : super(const OrderState());
+  OrderNotifier(this._createOrder, this._realtimeService)
+      : super(const OrderState());
 
   void initialize({
     required String tableId,
@@ -156,6 +164,12 @@ class OrderNotifier extends StateNotifier<OrderState> {
 
     try {
       final created = await _createOrder(order);
+      _realtimeService.emit(OrderSentEvent(
+        orderId: created.id,
+        tableId: state.tableId,
+        tableName: state.tableName,
+        itemCount: state.itemCount,
+      ));
       state = state.copyWith(
         isSending: false,
         isSent: true,

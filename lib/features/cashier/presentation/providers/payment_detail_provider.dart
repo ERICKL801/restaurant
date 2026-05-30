@@ -1,4 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/realtime/events/payment_events.dart';
+import '../../../../core/realtime/services/realtime_service.dart';
+import '../../../../core/realtime/providers/realtime_providers.dart';
 import '../../../orders/domain/entities/order_item_entity.dart';
 import '../../../orders/domain/repositories/order_repository.dart';
 import '../../../orders/data/repositories/order_repository_impl.dart';
@@ -15,6 +18,7 @@ final paymentDetailProvider =
   return PaymentDetailNotifier(
     cashierRepository: ref.watch(cashierRepositoryProvider),
     orderRepository: ref.watch(orderRepositoryProvider),
+    realtimeService: ref.watch(realtimeServiceProvider),
   );
 });
 
@@ -89,12 +93,15 @@ class PaymentDetailState {
 class PaymentDetailNotifier extends StateNotifier<PaymentDetailState> {
   final CashierRepository _cashierRepository;
   final OrderRepository _orderRepository;
+  final RealtimeService _realtimeService;
 
   PaymentDetailNotifier({
     required CashierRepository cashierRepository,
     required OrderRepository orderRepository,
+    required RealtimeService realtimeService,
   })  : _cashierRepository = cashierRepository,
         _orderRepository = orderRepository,
+        _realtimeService = realtimeService,
         super(const PaymentDetailState());
 
   Future<void> initialize({
@@ -157,6 +164,14 @@ class PaymentDetailNotifier extends StateNotifier<PaymentDetailState> {
         payment: payment,
         subtotal: state.subtotal,
       );
+
+      _realtimeService.emit(PaymentCompletedEvent(
+        orderId: state.orderId,
+        tableId: state.tableId,
+        tableName: state.tableName,
+        paymentMethod: state.selectedMethod!.displayName,
+        amount: state.total,
+      ));
 
       state = state.copyWith(
         isProcessing: false,

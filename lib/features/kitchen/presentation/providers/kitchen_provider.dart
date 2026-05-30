@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/realtime/events/order_events.dart';
+import '../../../../core/realtime/providers/realtime_providers.dart';
+import '../../../../core/realtime/services/realtime_service.dart';
 import '../../data/repositories/kitchen_repository_impl.dart';
 import '../../domain/entities/kitchen_order_entity.dart';
 import '../../domain/enums/kitchen_order_status.dart';
@@ -8,7 +11,17 @@ import '../../domain/repositories/kitchen_repository.dart';
 final kitchenProvider =
     StateNotifierProvider<KitchenNotifier, KitchenState>((ref) {
   final repository = ref.watch(kitchenRepositoryProvider);
-  return KitchenNotifier(repository);
+  final realtimeService = ref.watch(realtimeServiceProvider);
+  final notifier = KitchenNotifier(repository, realtimeService);
+
+  ref.listen(orderSentEventProvider, (prev, next) {
+    final event = next.valueOrNull;
+    if (event != null) {
+      notifier.loadOrders();
+    }
+  });
+
+  return notifier;
 });
 
 class KitchenState {
@@ -46,9 +59,11 @@ class KitchenState {
 
 class KitchenNotifier extends StateNotifier<KitchenState> {
   final KitchenRepository _repository;
+  final RealtimeService _realtimeService;
   Timer? _pollTimer;
 
-  KitchenNotifier(this._repository) : super(const KitchenState());
+  KitchenNotifier(this._repository, this._realtimeService)
+      : super(const KitchenState());
 
   void startPolling() {
     _pollTimer?.cancel();
@@ -87,6 +102,23 @@ class KitchenNotifier extends StateNotifier<KitchenState> {
 
     try {
       await _repository.updateOrderStatus(orderId, nextStatus);
+      if (nextStatus == KitchenOrderStatus.preparing) {
+        _realtimeService.emit(OrderPreparingEvent(
+          orderId: orderId,
+          tableName: order.tableName,
+        ));
+      } else if (nextStatus == KitchenOrderStatus.ready) {
+        _realtimeService.emit(OrderReadyEvent(
+          orderId: orderId,
+          tableName: order.tableName,
+        ));
+      } else if (nextStatus == KitchenOrderStatus.delivered) {
+        _realtimeService.emit(OrderDeliveredEvent(
+          orderId: orderId,
+          tableId: order.tableId,
+          tableName: order.tableName,
+        ));
+      }
       await loadOrders();
     } catch (e) {
       state = state.copyWith(error: e.toString());

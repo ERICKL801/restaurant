@@ -10,6 +10,7 @@ part 'kitchen_order_model.g.dart';
 class KitchenOrderModel with _$KitchenOrderModel {
   const factory KitchenOrderModel({
     required String id,
+    required String tableId,
     required String tableName,
     @Default([]) List<KitchenOrderItemModel> items,
     required KitchenOrderStatus status,
@@ -25,6 +26,7 @@ class KitchenOrderModel with _$KitchenOrderModel {
 
   KitchenOrderEntity toEntity() => KitchenOrderEntity(
         id: id,
+        tableId: tableId,
         tableName: tableName,
         items: items.map((i) => i.toEntity()).toList(),
         status: status,

@@ -1,14 +1,24 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/realtime/providers/realtime_providers.dart';
 import '../../domain/entities/table_entity.dart';
 import '../../domain/enums/table_status.dart';
 import '../../domain/usecases/get_tables_usecase.dart';
 import '../../domain/usecases/update_table_status_usecase.dart';
 
 final tablesProvider = StateNotifierProvider<TablesNotifier, TablesState>((ref) {
-  return TablesNotifier(
+  final notifier = TablesNotifier(
     ref.watch(getTablesUseCaseProvider),
     ref.watch(updateTableStatusUseCaseProvider),
   );
+
+  ref.listen(paymentCompletedEventProvider, (prev, next) {
+    final event = next.valueOrNull;
+    if (event != null) {
+      notifier.loadTables();
+    }
+  });
+
+  return notifier;
 });
 
 class TablesState {
