@@ -7,6 +7,7 @@ import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/dashboard/presentation/pages/dashboard_page.dart';
 import '../../features/tables/presentation/pages/tables_page.dart';
 import '../../features/orders/presentation/pages/order_page.dart';
+import '../../features/kitchen/presentation/pages/kitchen_page.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
@@ -26,6 +27,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       final isLoginRoute = location == RoutePaths.login;
       final isProtectedRoute = location == RoutePaths.dashboard ||
           location == RoutePaths.tables ||
+          location == RoutePaths.kitchen ||
           location.startsWith('/orders/');
 
       if (!isAuthenticated && isProtectedRoute) return RoutePaths.login;
@@ -63,6 +65,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           final tableName = extra?['tableName'] ?? 'Mesa';
           return OrderPage(tableId: tableId, tableName: tableName);
         },
+      ),
+      GoRoute(
+        path: RoutePaths.kitchen,
+        name: RouteNames.kitchen,
+        builder: (context, state) => const KitchenPage(),
       ),
     ],
   );

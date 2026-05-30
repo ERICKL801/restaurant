@@ -29,6 +29,10 @@ class OrdersLocalDataSource {
     }
   }
 
+  Future<List<OrderModel>> getOrdersByStatuses(List<String> statuses) async {
+    return _orders.where((o) => statuses.contains(o.status)).toList();
+  }
+
   Future<OrderModel> updateOrderStatus({
     required String orderId,
     required String status,

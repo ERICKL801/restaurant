@@ -72,6 +72,16 @@ class DashboardPage extends ConsumerWidget {
                   label: const Text('Gestión de Mesas'),
                 ),
               ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton.icon(
+                  onPressed: () => context.go(RoutePaths.kitchen),
+                  icon: const Icon(Icons.kitchen_rounded),
+                  label: const Text('Cocina'),
+                ),
+              ),
             ],
           ),
         ),
