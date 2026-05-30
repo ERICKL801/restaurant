@@ -33,6 +33,9 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# FVM (Flutter Version Management) — commit .fvmrc, not the SDK cache
+.fvm/
+
 # Symbolication related
 app.*.symbols
 
